@@ -92,4 +92,67 @@
         return res;
     }
 
+    /**
+     * 2018.4.3
+     */
+    /* 1. 给定一个字符串，统计每种字符出现的次数，生成一个数组。如‘abccddd’,得到['a':1,'b':1,'c':2,'d':3] */
+    function countLetter(letters) {
+        var res = [];
+        for (var i = 0, len = letters.length; i < len; i++) {
+            if (res[letters[i]]) {
+                res[letters[i]]++;
+            } else {
+                res[letters[i]] = 1;
+            }
+        }
+        return res;
+    }
+
+    /* 2. 对象浅拷贝 */
+    function shallowCopy(obj) {
+        var res,
+            type = Object.prototype.toString.call(obj).slice(8, -1);
+        if (obj === null) {
+            return null;
+        } else if (type === "Array") {
+            res = [];
+            obj.forEach(element => {
+                res.push(element);
+            });
+        } else if (type === "Object") {
+            res = {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    res[key] = obj[key];
+                }
+            }
+        } else { // 简单值和function、RegExp、Date等类型
+            res = obj;
+        }
+        return res;
+    }
+
+    /* 3.对象深拷贝 */
+    function deepCopy(obj) {
+        var res,
+            type = Object.prototype.toString.call(obj).slice(8, -1);
+        if (obj === null) {
+            return null;
+        } else if (type === "Array") {
+            res = [];
+            obj.forEach(element => {
+                res.push(deepCopy(element)); // 只更改元素赋值部分
+            });
+        } else if (type === "Object") {
+            res = {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    res[key] = deepCopy(obj[key]); // 只更改元素赋值部分
+                }
+            }
+        } else { // 简单值和function、RegExp、Date等类型
+            res = obj;
+        }
+        return res;
+    }
 }())
