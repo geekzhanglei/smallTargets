@@ -155,4 +155,49 @@
         }
         return res;
     }
+
+    /**
+     * 2018.4.4
+     */
+    /* 1. 封装一个函数，参数是定时器的时间，.then执行回调函数*/
+    function func(time) { // 能使用.then函数的必然是promise对象
+        return new Promise((resolve, reject) => {
+            setTimeout((resolve) => {
+                resolve('成功');
+                // reject('失败');
+            }, time);
+        })
+    }
+
+    /* 2. 动态添加li绑定事件仍然生效，弹出li内容，本题考察事件委托 */
+    function bindLi() {
+        var ulNode = document.getElementsByTagName('ul')[0];
+        ulNode.addEventListener("click", function(e) {
+            if (e.target && e.target.nodeName.toUpperCase() == "LI") {
+                alert(e.target.innerHTML);
+            }
+        }, false);
+    }
+
+    /* 3. 使用setTimeout模拟实现setInterval，setInterval会造成指令堆积，定时效果受到当前执行代码、任务队列繁忙情况影响*/
+    function newSetInterval(func, time, count) {
+        var _count = 0;
+
+        function _func() {
+            _count++;
+            if (_count <= count) {
+                //code here
+                func();
+                setTimeout(_func, time);
+            } else {
+                console.log("finished");
+            }
+        }
+        setTimeout(_func, time);
+    }
+
+    // newSetInterval(function() {
+    //     console.log('sss')
+    // }, 400, 5)
+
 }())
