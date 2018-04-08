@@ -179,14 +179,14 @@
         }, false);
     }
 
-    /* 3. 使用setTimeout模拟实现setInterval，setInterval会造成指令堆积，定时效果受到当前执行代码、任务队列繁忙情况影响*/
+    /* 3. 使用setTimeout模拟实现setInterval，setInterval会造成指令堆积，定时效果受到当前执行代码、任务队列繁忙情况影响，尾递归*/
     function newSetInterval(func, time, count) {
         var _count = 0;
 
         function _func() {
             _count++;
             if (_count <= count) {
-                //code here
+                //to do
                 func();
                 setTimeout(_func, time);
             } else {
@@ -199,5 +199,63 @@
     // newSetInterval(function() {
     //     console.log('sss')
     // }, 400, 5)
+
+    /**
+     * 2018.4.8
+     */
+    /* 1. 给定一个url，如何解析url中的参数和值，并返回一个对象 */
+    function query(url) {
+        var _url = decodeURI(url), //处理中文输入编码解析
+            res = {},
+            _temp;
+        var query = _url.split('?')[1];
+        var queryArr = query.split('&');
+        queryArr.forEach(e => {
+            res[e.split('=')[0]] = e.split('=')[1];
+        });
+        return res;
+    }
+
+    /* 2. 判断用户输入的字符串是否是不超过两位小数的数值 */
+    function checkNum(num) {
+        var _num = Number(num);
+        if (_num === _num) {
+            if (num.split('.')[1]) {
+                if (num.split('.')[1].length <= 2) {
+                    console.log('格式正确');
+                } else {
+                    console.log('格式错误，超过两位小数');
+                }
+            } else {
+                console.log('格式正确，是整数');
+            }
+        } else {
+            console.log('NaN');
+        }
+    }
+
+    /* 3. 判断多张图片是否全部加载完毕(考察图片元素onload事件和complete属性应用) */
+    function imgIsComplete(imgArr) { // onload是异步回调，complete是判断属性
+        var count = 0;
+        for (var i = 0; i < imgArr.length; i++) {
+            imgArr[i].onload = function() {
+                if (this.complete) {  //  这个if可以没有
+                    count++;
+                    console.log('当前加载第' + i + '张图片');
+                }
+            }
+        }
+
+        function queryProgress(callback) {
+            if (count < imgArr.length) {
+                console.log('加载不成功，当前是第' + count + '张图片加载完');
+                setTimeout(queryProgress, Interval);
+            } else {
+                console.log('已加载完');
+                // to do
+            }
+        }
+        queryProgress();
+    }
 
 }())
