@@ -376,4 +376,52 @@
         }
     }
 
+    /**
+     * 2018.4.16
+     */
+    /* 1. 克隆json对象，或最简单的对象深复制方法 */
+    function cloneJSON(oldObj) {
+        return JSON.parse(JSON.stringify(oldObj));
+    }
+    /* 2. 清除输入字符串前后的空格 */
+    function trim(str) {
+        if (str && typeof str == 'string') {
+            return str.replace(/^(\s*)| (\s*)$/, "");
+        }
+    }
+    /* 3. 对象转换为数组 */
+    function transfer(obj) {
+        var res = [];
+        for (var i in obj) {
+            res.push(i);
+        }
+        return res;
+    }
+
+    /**
+     * 2018.4.17-数组方法reduce、map、filter
+     */
+    /* 1. 生成一个递增数列的数组，如[1,2,3,...,n],map不能对空数组进行操作 */
+    function createArr(n) {
+        return new Array(n).fill('').map((ele, index) => {
+            return index + 1;
+        });
+    }
+    /* 2. 判断1到10000的所有数字中含有的0的个数，提示fill、map、filter、reduce */
+    function statistics() {
+        return new Array(10000).fill('fill').map((_, index) => { // map不对空数组处理，必须fill填充初始值
+            return index + 1;
+        }).filter((ele) => { // 过滤带0的数组元素
+            return /0/.test(ele);
+        }).reduce((count, item) => { // reduce迭代最终得到count
+            return count + (String(item).match(/0/g) || []).length; // match匹配失败返回null，匹配成功有/g返回每个子匹配项
+        });
+    }
+    /* 3. 累加器实现reduce应用 */
+    function summation(arr) {
+        return arr.reduce((count, item, index, array) => {
+            return count + item;
+        }, 0);
+    }
+
 }())
