@@ -423,5 +423,116 @@
             return count + item;
         }, 0);
     }
+    /**
+     * 2018.4.18
+     */
+    /* 1. 通用事件监听方法对象的写法 */
+    let event = {
+        getEvent: function(event) {
+            return event || window.event;
+        },
+        addEvent: function(element, type, callback) {
+            if (element.addEventListener) {
+                element.addEventListener(type, callback, false);
+            } else {
+                element.attachEvent('on' + type, callback); // attachEvent第一个参数要有on前缀
+            }
+        },
+        removeEvent: function(element, type, callback) {
+            if (element.removeEventListener) {
+                element.removeEventListener(type, callback, false);
+            } else {
+                element.detachEvent('on' + type, callback); // attachEvent第一个参数要有on前缀
+            }
+        },
+        getTarget: function(ele) {
+            return ele.target || ele.srcElement;
+        },
+        stopPropagation: function(ele) {
+            if (ele.stopPropagation) {
+                ele.stopPropagation();
+            } else {
+                ele.cancelBuble();
+            }
+        },
+        preventDefault: function(ele) {
+            if (ele.preventDefault) {
+                ele.preventDefault();
+            } else {
+                ele.returnValue = false;
+            }
+        }
+    }
+    /* 2. 实现数组乱序，是随机函数应用*/
+    function mess(arr) {
+        arr.sort((a, b) => {
+            let rand = (Math.random() > 0.5) ? -1 : 1;
+            return (a - b) * rand;
+        })
+        return arr;
+    }
+    // mess([1, 2, 3, 4, 5, 6])
+
+    /* 3. 网页中计算一年还有多长时间的倒计时，显示“还剩123天3小时23分20秒”,考察相关事件函数 */
+    (function restTime() {
+        function curTime() {
+            let oOldTime = new Date() // new Date() 返回utc格式当前时间
+            let curYear = oOldTime.getFullYear();
+            let oTime = new Date();
+            oTime.setFullYear(curYear, 12, 31, 23, 59, 59); //setFullYear用年份设置总毫秒数
+            console.log(oTime)
+            let iTimes = oTime.getTime() - oOldTime.getTime();
+            console.log(iTimes)
+            let iDays = parseInt(iTimes / 1000 / 3600 / 24);
+            let iHours = parseInt(iTimes / 1000 / 3600 % 24);
+            let iMins = parseInt(iTimes / 1000 / 60 % 60);
+            let iSecs = parseInt(iTimes / 1000 % 60);
+            console.log("今年还剩：" + iDays + "天" + iHours + "小时" + iMins + "分" + Math.round(iSecs) + "秒");
+        }
+        setInterval(() => {
+            curTime();
+        }, 1000)
+    })();
+
+    /**
+     * 2018.4.19
+     */
+    /* 1. 有一个已经排序的数组，如arr = [1,3,5,6,7,9,11]，把新的数字如8插入该数组，得到顺序数组 */
+    function sort(arr, item) {
+        arr.push(item);
+        arr.sort()
+        return arr;
+    }
+
+    function sort(arr, item) {
+        var _arrLeft = [],
+            _arrRight = [];
+        arr.map((ele, index, array) => {
+            if (ele <= item) {
+                _arrLeft.push(ele);
+            } else {
+                _arrRight.push(ele);
+            }
+        });
+        return _arrLeft.concat(_arrRight); // 注意concat返回拼接数组，原数组不变
+    }
+    /* 2. 移除数组 arr 中的所有值与 item 相等的元素，直接在给定的 arr 数组上进行操作，并将结果返回 */
+    function removeWithoutCopy(arr, item) {
+        var l = arr.length;
+        for (var i = 0; i < l; i++) {
+            if (arr[i] === item) {
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+        return arr;
+    }
+    // filter会返回新数组，不符合条件
+    /* 3.统计数组 arr 中值等于 item 的元素出现的次数，注意用数组方法，不要总想着for循环，数组方法通常返回新数组 */
+    function count(arr, item) {
+        return arr.filter(function(a) {
+            return a === item;
+        }).length;
+    }
 
 }())
