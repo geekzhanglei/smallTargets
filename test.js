@@ -535,4 +535,44 @@
         }).length;
     }
 
+    /**
+     * 2018.4.20
+     */
+    /* 1. 函数防抖，如input键盘输入事件的触发情形 */
+    // 法一：
+    var timer = false;
+
+    function throttle() {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            // to do
+        }, 300);
+    }
+    // 法二：高程推荐写法
+    function throttle(method, context) {
+        clearTimeout(method.id);
+        method.id = setTimeout(() => {
+            method.call(context);
+        }, timeout);
+    }
+    window.onresize = function() {
+        throttle(myFunc); // 默认context是window域
+    }
+    /* 2. 函数节流，节流意味着没有到一定时间不会响应用户触发的事件,其实封装有点差 */
+    var isOn = true;
+    $.onscroll = function() {
+        if (!isOn) {
+            return;
+        }
+        isOn = false;
+        setTimeout(() => {
+            // to do
+            isOn = true;
+        }, timeout);
+    }
+    /* 3.  将数组 arr 中的元素作为调用函数 fn 的参数:典型改变作用域问题call、apply应用*/
+    function argsAsArray(fn, arr) { // arr 是数组，使用apply，否则call
+        return fn.apply(this, arr);
+    }
+
 }())
