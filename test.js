@@ -575,4 +575,32 @@
         return fn.apply(this, arr);
     }
 
+    /**
+     * 2018.4.23
+     */
+    /* 1. 实现函数 makeClosures，调用之后满足如下条件：
+        (1)返回一个函数数组 result，长度与 arr 相同
+        (2)运行 result 中第 i 个函数，即 result[i]()，结果与 fn(arr[i]) 相同 */
+    function makeClosures(arr, fn) {
+        var result = [];
+        for (var i = 0; i < arr.length; i++) {
+            result[i] = (function(e) {
+                return function() {
+                    return fn(arr[e]);
+                }
+            })(i);
+        }
+    }
+    /* 2. 将add(1,2)形式的多参输入转换为add(1)(2)形式,考察柯里化概念 */
+    function add(x) {
+        return function(y) {
+            return x + y;
+        }
+    }
+    // add(1)(2);
+    /* 3. 千位分隔符经典问题,两位小数 */
+    function isUSD(str) {
+        return /^\$\d{1,3}(,\d{3})*(\.\d{2})?$/.test(str);
+    }
+
 }())
