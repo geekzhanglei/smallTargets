@@ -603,4 +603,69 @@
         return /^\$\d{1,3}(,\d{3})*(\.\d{2})?$/.test(str);
     }
 
+    /**
+     * 2018.4.24
+     */
+    /* 1. 翻转字符串*/
+    function reverseStr(str) {
+        var tmp = '';
+        for (var i = str.length; i >= 0; i--) {
+            tmp += str[i];
+        }
+        return tmp;
+    }
+    // split join 字符串数组互转方法
+    function reverseStr(str) {
+        var arrStr = str.split("");
+        arrStr.reverse();
+        return arrStr.join("");
+    }
+    /* 2. 生成指定长度的随机字符串 */
+    function getRandomStr(n) {
+        var str = 'abcdefghijklmnopqrstuvwxyz0123456789',
+            res = '';
+        for (var i = 0; i < n; i++) {
+            res += str.charAt(Math.floor(Math.random() * n));
+        }
+        return res;
+    }
+    /* 3. 阶乘 */
+    function factorial(num) {
+        var res = 1;
+        if (num == 0) {
+            return 1;
+        }
+        //
+        var arr = new Array(num).fill("").map((e, i) => {
+            return i + 1;
+        });
+        arr.forEach((e) => {
+            res *= e;
+        })
+        return res;
+    }
+
+    function factorial(num) {
+        var res = 1;
+        if (num == 0 || num == 1) {
+            return 1;
+        }
+        while (num > 1) {
+            res *= num--;
+        }
+        return res;
+    }
+
+    function factorial(num) {
+        if (num < 0) {
+            return -1;
+        }
+        if (num === 0) {
+            return 1;
+        }
+        if (num > 0) {
+            return num * factorial(num - 1);
+        }
+    }
+
 }())
