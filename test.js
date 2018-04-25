@@ -668,4 +668,76 @@
         }
     }
 
+    /**
+     * 2018.4.25
+     */
+    /* 1. 冒泡排序 */
+    function bubbleSort(arr) {
+        var i, j, l = arr.length,
+            temp;
+        for (i = 1; i < l; i++) {
+            for (j = 0; j <= l - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j - 1] = temp;
+                }
+            }
+        }
+        return arr;
+    }
+    // 比较正宗的冒泡，从下边往上浮动，排序的关键是想清楚元素移动的顺序
+    function bubbleSort(arr) {
+        var i, j, l = arr.length,
+            temp;
+        for (i = 1; i < l; i++) {
+            for (j = l; j >= i; j--) {
+                if (arr[j] < arr[j - 1]) {
+                    temp = arr[j];
+                    arr[j] = arr[j - 1];
+                    arr[j - 1] = temp;
+                }
+            }
+        }
+        return arr;
+    }
+    /* 2. 二分查找，已排序的数组中查找特定元素，还是想清楚过程 */
+    function binary_search(arr, key) { // 普通
+        var low = 0,
+            high = arr.length - 1,
+            mid;
+        while (low <= high) {
+            mid = parseInt((low + high) / 2);
+            if (key === arr[mid]) {
+                return mid;
+            } else if (key < arr[mid]) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    function binary_search(arr, key, low, high) {
+        var low = 0,
+            high = arr.length - 1,
+            mid;
+        if (low > high) {
+            return -1;
+        }
+        mid = parseInt((low + high) / 2);
+        if (key == arr[mid]) {
+            return mid;
+        } else if (key < arr[mid]) {
+            return binary_search(arr, key, low, mid - 1);
+        } else {
+            return binary_search(arr, key, mid + 1, high);
+        }
+    }
+    /* 3. 判断回文字符串 */
+    function palindrome(str) {
+        return str.split("").reverse().join("") === str;
+    }
+
 }())
