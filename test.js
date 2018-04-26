@@ -740,4 +740,49 @@
         return str.split("").reverse().join("") === str;
     }
 
+    /**
+     * 2018.4.26
+     */
+    /* 1. 实现一个单例模式，思路：定义父类，用标志位初始化一次实例 */
+    var singleton = function(name) {
+        this.name = name;
+    }
+    singleton.prototype.getName = function() {
+        return this.name;
+    }
+    var getInstance = (function() {
+        var instance = null;
+        return function(name) {
+            if (!instance) {
+                instance = new singleton(name)
+            }
+            return instance;
+        }
+    })();
+    var a = getInstance('aa');
+    var b = getInstance('bb');
+
+    /* 2. 沙箱模式:锁定作用域，输出以闭包形式访问内部函数 */
+    let sandboxModel = (function() {
+        function sayName() {};
+
+        function sayHi() {};
+        return {
+            sayName: sayName,
+            sayHi: sayHi
+        }
+    })();
+    /* 3. 判断字符类型的方法 */
+    function isWhatType(param) {
+        // 第一种
+        // return Object.prototype.toString.call(param).slice(8, -1);
+        // 第二种
+        if (typeof param === 'object') {
+            return object.constructor; // 原始构造函数有效，如果继承过可能改变constructor
+        } else {
+            return typeof param;
+        }
+    }
+
+
 }())
