@@ -784,5 +784,47 @@
         }
     }
 
+    /**
+     * 2018.4.27
+     */
+    /* 1. 现在有两个数组，合并为一个输入
+        var a = [
+    {
+        id: 1,
+        name: '...'
+    },
+    {
+        id: 2,
+        name: '...'
+    }
+    ]
+    var b = [
+    {
+        id: 1,
+        age: 10
+    },
+    {
+        id: 2,
+        age: 10
+    }
+    ]
+    合并为[{ id: 1, name: '...', age: 10 }, { id: 2, name: '...', age: 10 }]
+    */
+    function mergeArray(a, b) {
+        // map返回新数组，find返回判断条件为true的值，Object.assign用于合并对象到目标对象，返回值为目标对象
+        return a.map(itema => Object.assign({}, itema, b.find(itemb => itema.id === itemb.id)));
+    }
+
+    /* 2. 获取数字 num 二进制形式第 bit 位的值 */
+    function getBinaryBit(num, bit) {
+        var str = num.toString(2); //数字按基准转变为其他进制数字字符串
+        return str[bit - 1];
+    }
+
+    /* 3. 字符串转数字，获取形如'1000010'的十进制数字 */
+    function getNum(binaryNum) {
+        return parseInt(binaryNum, 2); //字符串按进制基准转变为十进制数字
+    }
+
 
 }())
