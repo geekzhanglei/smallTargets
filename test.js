@@ -825,6 +825,127 @@
     function getNum(binaryNum) {
         return parseInt(binaryNum, 2); //字符串按进制基准转变为十进制数字
     }
+    /**
+     * 2018.5.4
+     */
+    /* 1. 将setTimeout封装为promise形式 */
+    function fakeSetTimeout() {
+        const promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject(true);
+                resolve(false);
+            }, timeout);
+        });
+        promise.then((data) => {
+            console.log(data);
+        }, (data) => {
+            console.log(data);
+        })
+    }
 
+    /* 2. 输出1、2、3、4的promise事例1:promise构造函数内部同步执行，不会被resolve/reject阻断 */
+    function textPromise() {
+        console.log(1);
+        const promise = new Promise((resolve, reject) => {
+            console.log(1);
+            resolve(true);
+            console.log(2);
+        });
+        promise.then(() => {
+            console.log(4);
+        });
+        console.log(3);
+    }
 
+    /* 3. 输出success1，考察promise构造函数内触发函数的唯一性 */
+    function testPromise1() {
+        const promise = new Promise((resolve, reject) => {
+            resolve('success1')
+            reject('error')
+            resolve('success2')
+        })
+
+        promise
+            .then((res) => {
+                console.log('then: ', res)
+            })
+            .catch((err) => {
+                console.log('catch: ', err)
+            });
+    }
+    /* 4. promise链式调用,输出1，2，每次调用then或者catch都会生成一个新promise对象，实现链式调用 */
+    function testPromise2() {
+        Promise.resolve(1)
+            .then((res) => {
+                console.log(res)
+                return 2
+            })
+            .catch((err) => {
+                return 3
+            })
+            .then((res) => {
+                console.log(res)
+            })
+    }
+    /* 5. promise状态改变后再调用不会再次执行构造函数，直接拿到最终值 */
+    function testPromise3() {
+        const promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('once')
+                resolve('success')
+            }, 1000)
+        })
+
+        const start = Date.now()
+        promise.then((res) => {
+            console.log(res, Date.now() - start)
+        })
+        promise.then((res) => {
+            console.log(res, Date.now() - start)
+        })
+    }
+    /* 6. 在then中return一个错误不会进入catch流程 */
+    function testPromise4() {
+        Promise.resolve()
+            .then(() => {
+                return new Error('error!!!') //返回值会包装成promise对象
+            })
+            .then((res) => {
+                console.log('then: ', res) //在这里输出
+            })
+            .catch((err) => {
+                console.log('catch: ', err)
+            })
+    }
+    /* 7. promise返回自身会造成死循环 */
+    function testPromise5() {
+        const promise = Promise.resolve()
+            .then(() => {
+                return promise
+            })
+        promise.catch(console.error)
+    }
+    /* 8. promise在then中传入非函数参数会发生值穿透 */
+    function testPromise6() {
+        Promise.resolve(1)
+            .then(2) // 每一项都是返回1
+            .then(Promise.resolve(3))
+            .then(console.log)
+    }
+    /* 9. promise then的第二个函数无法捕获第一个函数中抛出的错误，再加个catch可以捕获，如： */
+    function testPromise7() {
+        Promise.resolve()
+            .then(function success(res) {
+                throw new Error('error')
+            }, function fail1(e) {
+                console.error('fail1: ', e)
+            })
+            .catch(function fail2(e) {
+                console.error('fail2: ', e)
+            })
+    }
+
+    /**
+     * 2018.5.7
+     */
 }())
