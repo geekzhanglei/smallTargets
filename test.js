@@ -946,6 +946,42 @@
     }
 
     /**
-     * 2018.5.7
+     * 2018.5.21
      */
+    /* 1. 使用原生js实现splice的功能，splice有三个功能，添加splice(index,0,insertItems)、删除splice(index,num)、替换即删除后插入splice(index,removeNum,insertItems);主要是slice数组分离、concat数组合并，根据情况处理*/
+    let source = [1, 2, 3, 4, 5, 6];
+    Array.prototype.fakeSplice = function() {
+        let arr = Array.prototype.slice.call(arguments);
+        let start = arr[0],
+            num = arr[1],
+            items = arr.slice(2),
+            res = [];
+
+        console.log(start, num, items);
+        let leftArr = this.slice(0, start),
+            rightArr = this.slice(start + num);
+        if (num === 0) {
+            res = leftArr.concat(leftArr, items, rightArr);
+            console.log('0时：' + res);
+        } else if (num > 0) {
+            res = leftArr.concat(leftArr, items, rightArr);
+            console.log('1时：' + res);
+            return this.slice(start, num + 1);
+        } else {
+            return this;
+        }
+        return [];
+    }
+    source.fakeSplice(1, 0, 'test');
+
+    /* 2. 字符串中是否包含数字类需求：考察简单正则*/
+    function testNum(numStr) {
+        let reg = /\d/;
+        return reg.text(numStr);
+    }
+    /* 3. 判断字符串中是否存在连续字符 */
+    function isContinus(str) {
+        return /[a-zA-Z]\1/.test(str);
+    }
+
 }())
