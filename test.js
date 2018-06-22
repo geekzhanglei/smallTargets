@@ -984,4 +984,22 @@
         return /[a-zA-Z]\1/.test(str);
     }
 
+    /**
+     * 2018.6.22
+     */
+    /* 1. ES6 map数据结构 */
+    function unique(arr) {
+        const res = new Map();
+        return arr.filter((a) => !res.has(a) && res.set(a, 1))
+    }
+    /* 2. ES6去重神器 */
+    function dedupe(array) {
+        return Array.from(new Set(array));
+    }
+    /* 3. ES6 set+扩展运算符 */
+    function dedupe(array) {
+        let resultarr = [...new Set(array)];
+        console.log(resultarr); //[1,2,3]
+    }
+
 }())
