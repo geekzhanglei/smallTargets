@@ -1002,4 +1002,55 @@
         console.log(resultarr); //[1,2,3]
     }
 
+    /**
+     * 2018.7.2
+     */
+    /* 1. 斐波那契数列的生成函数写法:解构赋值 */
+    function fib(max) {
+        let a = 0;
+        let b = 1;
+        let arr = [0, 1];
+        if (arr.length < max) {
+            [a, b] = [b, a + b];
+            arr.push(b);
+        }
+        return arr;
+    }
+    fib(5); //前5项
+
+    /* 2. 斐波那契数列的生成函数写法:生成器generator手动循环 */
+    function* fib(max) {
+        let a = 0,
+            b = 1,
+            n = 0;
+        while (n < max) {
+            yield a;
+            [a, b] = [b, a + b];
+            n++;
+        }
+        return;
+    }
+    let f = fib(4);
+    f.next(); // {value:0,done:false}
+    f.next(); // {value:1,done:false}
+    f.next(); // {value:1,done:false}
+    f.next(); // {value:2,done:false}
+    f.next(); // {value:undefined,done:true}
+
+    /* 3. 斐波那契数列的生成函数写法:生成器generator自动循环 */
+    function* fib(max) {
+        let a = 0,
+            b = 1,
+            n = 0;
+        while (n < max) {
+            yield a;
+            [a, b] = [b, a + b];
+            n++;
+        }
+        return;
+    }
+    for (var ele of fib(10)) {
+        console.log(ele);
+    }
+
 }())
