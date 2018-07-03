@@ -1053,4 +1053,27 @@
         console.log(ele);
     }
 
+    /**
+     * 2018.7.3
+     */
+    /* 1. 切分如下字符串为数组，'a b    c,d'提取字符为数组 */
+    function str2arr() {
+        let str = 'a b   c,d;;e';
+        return str.split(/[\s\,\;]+/);
+    }
+
+    /* 2. 粗糙的电子邮件匹配 */
+    function valid(emailStr) {
+        return /^[\w\.]+@[\w]+[\.\w]*$/.test(emailStr);
+    }
+    /* 3. 提取电子邮件名字和邮箱 */
+    function getNameEmail() {
+        var re = /^<(\w+\s\w+)>\s(\w+@\w+\.\w+)$/;
+        var r = re.exec('<Tom Paris> tom@voyager.org');
+        if (r === null || r.toString() !== ['<Tom Paris> tom@voyager.org', 'Tom Paris', 'tom@voyager.org'].toString()) {
+            console.log('测试失败!');
+        } else {
+            console.log('测试成功!');
+        }
+    }
 }())
