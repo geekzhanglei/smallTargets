@@ -1077,3 +1077,52 @@
         }
     }
 }())
+/**
+ * 2018.8.8
+ */
+/* 1.将数组某元素向前/向后移动若干位 */
+var arr = [1, 2, 4, 5, 6, 7, 8, 9, 3, 10];
+const arrMoveTo = (arr, start, end) => {
+    if (arr.length < 0 || start < 1 || end < 1 || start > arr.length || end > arr.length) {
+        throw new Error('error');
+    }
+    var temp = arr.splice(start - 1, 1, 'err')[0];
+    arr.splice(end - 1, 0, temp);
+    arr.splice(arr.indexOf('err'), 1);
+    return arr;
+}
+arrMoveTo(arr, 3, 9);
+
+/* 2. 旋转数组：即[1,2,3,4,5,6]变为[5,6,1,2,3,4] */
+var nums = [1, 2, 3, 4, 5, 6];
+var rotate2 = function(nums, k) {
+    nums.splice(0, 0, ...nums.splice(-k, k))
+    return nums
+}
+rotate2(nums, 2);
+/* 3. 更好的节流函数 */
+function throttle(fn, interval) {
+    var timer,
+        isFirst = true,
+        that = this; // this取决于生成函数时的执行方式throttle(handleClick, 2000)，而不是最终函数的调用方式throttledHandleClick
+    return function() {
+        if (isFirst) {
+            fn.apply(that, arguments);
+            return isFirst = false;
+        }
+        timer = setTimeout(() => {
+            clearTimeout(timer);
+            timer = null;
+            fn.apply(that, arguments);
+        }, interval || 1000);
+    }
+}
+// 用法
+function handleClick(param) {
+    console.log('clicked', param)
+};
+const throttledHandleClick = throttle(handleClick, 2000)
+// 下面的代码只会打印一次clicked
+throttledHandleClick('p')
+throttledHandleClick('p')
+throttledHandleClick('p')
