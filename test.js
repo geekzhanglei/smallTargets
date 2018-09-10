@@ -242,7 +242,7 @@
         var count = 0;
         for (var i = 0; i < imgArr.length; i++) {
             imgArr[i].onload = function() {
-                if (this.complete) {  //  这个if可以没有
+                if (this.complete) { //  这个if可以没有
                     count++;
                     console.log('当前加载第' + i + '张图片');
                 }
@@ -1126,3 +1126,32 @@ const throttledHandleClick = throttle(handleClick, 2000)
 throttledHandleClick('p')
 throttledHandleClick('p')
 throttledHandleClick('p')
+
+/**
+ * 2018.9.10
+ */
+/* 1. 数组扁平化方法，即多维数组化为一维数组，如[1,2,3,[4,5,[6,7]]] ==>> [1,2,3,4,5,6,7]*/
+// 方法一：普通递归
+function flatArr(arr) {
+    let result = [];
+    for (let i = 0, l = arr.length; i < l; i++) {
+        if (Array.isArray[arr[i]]) {
+            result.push(...arr[i]);
+        } else {
+            result.push(arr[i]);
+        }
+    }
+    return result;
+}
+// 方法二：利用join对数组的递归解析性质
+function flatArr(arr) {
+    return arr.join(',').split(',').map(Number);
+}
+// 方法三：利用toString对数组的递归解析特性
+function flatArr(arr) {
+    return arr.toString().split(',').map(Number);
+}
+// 方法四：利用空数组字符串特性
+function flatArr(arr) {
+    return (arr + '').split(',').map(Number);
+}
